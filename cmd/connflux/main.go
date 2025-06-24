@@ -21,7 +21,7 @@ var (
 const (
 	versionString = "0.1.0"
 
-	DirectoryConfig = ".pivot"
+	DirectoryConfig = ".connflux"
 )
 
 type cmd struct {

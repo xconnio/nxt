@@ -22,4 +22,4 @@ jobs:
         if: false
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        run: snapcraft upload pivot_*.snap --release=edge
+        run: snapcraft upload connflux_*.snap --release=edge

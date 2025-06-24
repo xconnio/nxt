@@ -1,4 +1,4 @@
-name: pivot
+name: connflux
 base: core24
 version: '0.1.0'
 summary: High performance WAMP router based on xconn-go
@@ -9,8 +9,8 @@ grade: stable
 confinement: strict
 
 apps:
-  xconn:
-    command: bin/pivot
+  connflux:
+    command: bin/connflux
     completer: bash_autocomplete.sh
     plugs:
       - network
@@ -18,7 +18,7 @@ apps:
       - home
 
 parts:
-  xconn:
+  connflux:
     plugin: go
     source: .
     build-snaps:
