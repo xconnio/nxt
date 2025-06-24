@@ -1,4 +1,4 @@
-name: pivot CI
+name: connflux CI
 
 on:
   push:

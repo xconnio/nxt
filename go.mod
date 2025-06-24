@@ -1,4 +1,4 @@
-module github.com/xconnio/pivot
+module github.com/xconnio/connflux
 
 go 1.22.12
 

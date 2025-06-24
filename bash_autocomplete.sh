@@ -1,5 +1,5 @@
 
-_pivot_bash_autocomplete() {
+_connflux_bash_autocomplete() {
     local cur prev opts base
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -7,5 +7,5 @@ _pivot_bash_autocomplete() {
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
     return 0
 }
-complete -F _pivot_bash_autocomplete -o default pivot
+complete -F _connflux_bash_autocomplete -o default connflux
 
