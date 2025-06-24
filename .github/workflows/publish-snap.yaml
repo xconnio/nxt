@@ -19,7 +19,6 @@ jobs:
           snapcraft-channel: 8.x/stable
 
       - name: Publish the snap
-        if: false
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
         run: snapcraft upload connflux_*.snap --release=edge
