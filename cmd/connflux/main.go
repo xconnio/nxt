@@ -10,7 +10,7 @@ import (
 
 	"github.com/alecthomas/kingpin/v2"
 
-	"github.com/xconnio/xconn-go/util"
+	"github.com/xconnio/connflux/util"
 )
 
 var (
