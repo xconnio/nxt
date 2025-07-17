@@ -5,7 +5,7 @@ go 1.22.12
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/xconnio/wampproto-go v0.0.0-20250619081817-4647a406d615
-	github.com/xconnio/xconn-go v0.0.0-20250625100749-610bee4f3ad7
+	github.com/xconnio/xconn-go v0.0.0-20250717072609-14dac427755b
 	golang.org/x/exp v0.0.0-20240525044651-4c93da0ed11d
 	gopkg.in/yaml.v3 v3.0.1
 )
