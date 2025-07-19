@@ -1,5 +1,5 @@
 
-_connflux_bash_autocomplete() {
+_nxt_bash_autocomplete() {
     local cur prev opts base
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -7,5 +7,5 @@ _connflux_bash_autocomplete() {
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
     return 0
 }
-complete -F _connflux_bash_autocomplete -o default connflux
+complete -F _nxt_bash_autocomplete -o default nxt
 

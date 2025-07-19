@@ -10,7 +10,7 @@ import (
 
 	"github.com/alecthomas/kingpin/v2"
 
-	"github.com/xconnio/connflux/util"
+	"github.com/xconnio/nxt/util"
 )
 
 var (
@@ -21,7 +21,7 @@ var (
 const (
 	versionString = "0.1.0"
 
-	DirectoryConfig = ".connflux"
+	DirectoryConfig = ".nxt"
 )
 
 type cmd struct {

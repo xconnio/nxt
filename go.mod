@@ -1,4 +1,4 @@
-module github.com/xconnio/connflux
+module github.com/xconnio/nxt
 
 go 1.22.12
 

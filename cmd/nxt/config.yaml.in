@@ -41,7 +41,7 @@ transports:
       strategy: burst
 
   - type: unixsocket
-    path: /tmp/connflux.sock
+    path: /tmp/nxt.sock
     serializers:
       - json
       - cbor

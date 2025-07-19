@@ -1,4 +1,4 @@
-name: connflux
+name: nxt
 base: core24
 version: '0.1.0'
 summary: High performance WAMP router based on xconn-go
@@ -9,8 +9,8 @@ grade: stable
 confinement: strict
 
 apps:
-  connflux:
-    command: bin/connflux
+  nxt:
+    command: bin/nxt
     completer: bash_autocomplete.sh
     plugs:
       - network
@@ -18,7 +18,7 @@ apps:
       - home
 
 parts:
-  connflux:
+  nxt:
     plugin: go
     source: .
     build-snaps:

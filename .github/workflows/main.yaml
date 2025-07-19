@@ -1,4 +1,4 @@
-name: connflux CI
+name: nxt CI
 
 on:
   push:
