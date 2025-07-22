@@ -1,4 +1,4 @@
-name: nxt
+name: nxt-router
 base: core24
 version: '0.1.0'
 summary: High performance WAMP router based on xconn-go
@@ -9,7 +9,7 @@ grade: stable
 confinement: strict
 
 apps:
-  nxt:
+  nxt-router:
     command: bin/nxt
     completer: bash_autocomplete.sh
     plugs:
@@ -18,7 +18,7 @@ apps:
       - home
 
 parts:
-  nxt:
+  nxt-router:
     plugin: go
     source: .
     build-snaps:
