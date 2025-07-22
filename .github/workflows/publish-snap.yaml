@@ -21,4 +21,4 @@ jobs:
       - name: Publish the snap
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-        run: snapcraft upload nxt_*.snap --release=edge
+        run: snapcraft upload nxt-router_*.snap --release=edge
