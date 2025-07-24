@@ -25,7 +25,7 @@ func (a *Authenticator) Authenticate(request auth.Request) (auth.Response, error
 	case auth.MethodAnonymous:
 		for _, anonymous := range a.authenticator.Anonymous {
 			if anonymous.Realm == request.Realm() {
-				return auth.NewResponse(request.AuthID(), request.AuthRole(), 0)
+				return auth.NewResponse(request.AuthID(), anonymous.Role, 0)
 			}
 		}
 		return nil, fmt.Errorf("invalid realm")
@@ -38,7 +38,7 @@ func (a *Authenticator) Authenticate(request auth.Request) (auth.Response, error
 
 		for _, ticket := range a.authenticator.Ticket {
 			if ticket.Realm == ticketRequest.Realm() && ticket.Ticket == ticketRequest.Ticket() {
-				return auth.NewResponse(ticketRequest.AuthID(), ticketRequest.AuthRole(), 0)
+				return auth.NewResponse(ticketRequest.AuthID(), ticket.Role, 0)
 			}
 		}
 		return nil, fmt.Errorf("invalid ticket")
@@ -47,10 +47,10 @@ func (a *Authenticator) Authenticate(request auth.Request) (auth.Response, error
 		for _, wampcra := range a.authenticator.WAMPCRA {
 			if wampcra.Realm == request.Realm() && request.AuthID() == wampcra.AuthID {
 				if wampcra.Salt != "" {
-					return auth.NewCRAResponseSalted(request.AuthID(), request.AuthRole(), wampcra.Secret, wampcra.Salt,
+					return auth.NewCRAResponseSalted(request.AuthID(), wampcra.Role, wampcra.Secret, wampcra.Salt,
 						wampcra.Iterations, wampcra.KeyLen, 0), nil
 				}
-				return auth.NewCRAResponse(request.AuthID(), request.AuthRole(), wampcra.Secret, 0), nil
+				return auth.NewCRAResponse(request.AuthID(), wampcra.Role, wampcra.Secret, 0), nil
 			}
 		}
 		return nil, fmt.Errorf("invalid realm")
@@ -64,7 +64,7 @@ func (a *Authenticator) Authenticate(request auth.Request) (auth.Response, error
 		for _, cryptosign := range a.authenticator.CryptoSign {
 			if cryptosign.Realm == cryptosignRequest.Realm() &&
 				slices.Contains(cryptosign.AuthorizedKeys, cryptosignRequest.PublicKey()) {
-				return auth.NewResponse(cryptosignRequest.AuthID(), cryptosignRequest.AuthRole(), 0)
+				return auth.NewResponse(cryptosignRequest.AuthID(), cryptosign.Role, 0)
 			}
 		}
 		return nil, fmt.Errorf("unknown publickey")
