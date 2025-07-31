@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	"golang.org/x/exp/slices"
+
+	"github.com/xconnio/xconn-go"
 )
 
 const (
@@ -18,10 +20,9 @@ const (
 	BurstStrategy       = "burst"
 	LeakyBucketStrategy = "leakybucket"
 
-	WebSocketTransport    = "websocket"
-	UniversalTcpTransport = "universaltcp"
-	RawSocketTransport    = "rawsocket"
-	UnixSocketTransport   = "unixsocket"
+	WebSocketTransport = "websocket"
+	UniversalTransport = "universal"
+	RawSocketTransport = "rawsocket"
 )
 
 var URIRegex = regexp.MustCompile(`^([^\s.#]+\.)*([^\s.#]+)$`)
@@ -72,13 +73,18 @@ func validateSerializers(serializers []string) error {
 
 func validateTransport(transport Transport) error {
 	switch transport.Type {
-	case WebSocketTransport, UniversalTcpTransport, RawSocketTransport:
-	case UnixSocketTransport:
-		if err := validateNonEmptyNoSpaceString(transport.Path, "path"); err != nil {
+	case WebSocketTransport, UniversalTransport, RawSocketTransport:
+		if err := validateNonEmptyNoSpaceString(transport.Address, "address"); err != nil {
 			return fmt.Errorf("invalid unix socket path: %w", err)
 		}
 	default:
 		return fmt.Errorf("invalid transport type: %s", transport.Type)
+	}
+
+	switch transport.Listener {
+	case xconn.NetworkTCP, xconn.NetworkUnix:
+	default:
+		return fmt.Errorf("invalid listener: %s", transport.Listener)
 	}
 
 	if err := validateSerializers(transport.Serializers); err != nil {

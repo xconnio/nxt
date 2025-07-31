@@ -5,8 +5,8 @@ realms:
 
 transports:
   - type: websocket
-    port: 8080
-    host: localhost
+    listener: tcp
+    address: localhost:8080
     serializers:
       - json
       - cbor
@@ -17,8 +17,8 @@ transports:
       strategy: burst
 
   - type: rawsocket
-    port: 8081
-    host: localhost
+    listener: tcp
+    address: localhost:8081
     serializers:
       - json
       - cbor
@@ -28,20 +28,9 @@ transports:
       interval: 1
       strategy: leakybucket
 
-  - type: universaltcp
-    port: 8082
-    host: localhost
-    serializers:
-      - json
-      - cbor
-      - msgpack
-    ratelimit:
-      rate: 100
-      interval: 1
-      strategy: burst
-
-  - type: unixsocket
-    path: /tmp/nxt.sock
+  - type: universal
+    listener: tcp
+    address: localhost:8082
     serializers:
       - json
       - cbor
