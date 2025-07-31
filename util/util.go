@@ -61,25 +61,24 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 		var closer io.Closer
 		switch transport.Type {
 		case WebSocketTransport:
-			closer, err = server.StartWebSocket(transport.Host, transport.Port)
+			closer, err = server.ListenAndServeWebSocket(transport.Listener, transport.Address)
 			if err != nil {
 				return nil, err
 			}
-		case UniversalTcpTransport:
-			closer, err = server.StartUniversalTCP(transport.Host, transport.Port)
+			fmt.Printf("listening websocket on ws://%s\n", transport.Address)
+		case UniversalTransport:
+			closer, err = server.ListenAndServeUniversal(transport.Listener, transport.Address)
 			if err != nil {
 				return nil, err
 			}
+			fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
+			fmt.Printf("listening websocket on ws://%s\n", transport.Address)
 		case RawSocketTransport:
-			closer, err = server.StartRawSocket(transport.Host, transport.Port)
+			closer, err = server.ListenAndServeRawSocket(transport.Listener, transport.Address)
 			if err != nil {
 				return nil, err
 			}
-		case UnixSocketTransport:
-			closer, err = server.StartUnixSocket(transport.Path)
-			if err != nil {
-				return nil, err
-			}
+			fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
 		}
 
 		closers = append(closers, closer)

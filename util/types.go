@@ -1,16 +1,17 @@
 package util
 
+import "github.com/xconnio/xconn-go"
+
 type Realm struct {
 	Name string `yaml:"name"`
 }
 
 type Transport struct {
-	Type        string    `yaml:"type"`
-	Host        string    `yaml:"host"`
-	Port        int       `yaml:"port"`
-	Path        string    `yaml:"path"`
-	Serializers []string  `yaml:"serializers"`
-	RateLimit   RateLimit `yaml:"ratelimit"`
+	Type        string        `yaml:"type"`
+	Address     string        `yaml:"address"`
+	Listener    xconn.Network `yaml:"listener"`
+	Serializers []string      `yaml:"serializers"`
+	RateLimit   RateLimit     `yaml:"ratelimit"`
 }
 
 type RateLimit struct {
