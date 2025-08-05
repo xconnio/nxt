@@ -11,34 +11,14 @@ transports:
       - json
       - cbor
       - protobuf
-    ratelimit:
-      rate: 100
-      interval: 1
-      strategy: burst
 
   - type: rawsocket
-    listener: tcp
-    address: localhost:8081
+    listener: unix
+    address: /tmp/nxt.sock
     serializers:
       - json
       - cbor
       - msgpack
-    ratelimit:
-      rate: 100
-      interval: 1
-      strategy: leakybucket
-
-  - type: universal
-    listener: tcp
-    address: localhost:8082
-    serializers:
-      - json
-      - cbor
-      - msgpack
-    ratelimit:
-      rate: 100
-      interval: 1
-      strategy: burst
 
 authenticators:
   cryptosign:
