@@ -65,20 +65,33 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 			if err != nil {
 				return nil, err
 			}
-			fmt.Printf("listening websocket on ws://%s\n", transport.Address)
+			if transport.Listener == xconn.NetworkUnix {
+				fmt.Printf("listening websocket on unix+ws://%s\n", transport.Address)
+			} else {
+				fmt.Printf("listening websocket on ws://%s\n", transport.Address)
+			}
 		case UniversalTransport:
 			closer, err = server.ListenAndServeUniversal(transport.Listener, transport.Address)
 			if err != nil {
 				return nil, err
 			}
-			fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
-			fmt.Printf("listening websocket on ws://%s\n", transport.Address)
+			if transport.Listener == xconn.NetworkUnix {
+				fmt.Printf("listening rawsocket on unix://%s\n", transport.Address)
+				fmt.Printf("listening websocket on unix+ws://%s\n", transport.Address)
+			} else {
+				fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
+				fmt.Printf("listening websocket on ws://%s\n", transport.Address)
+			}
 		case RawSocketTransport:
 			closer, err = server.ListenAndServeRawSocket(transport.Listener, transport.Address)
 			if err != nil {
 				return nil, err
 			}
-			fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
+			if transport.Listener == xconn.NetworkUnix {
+				fmt.Printf("listening rawsocket on unix://%s\n", transport.Address)
+			} else {
+				fmt.Printf("listening rawsocket on rs://%s\n", transport.Address)
+			}
 		}
 
 		closers = append(closers, closer)
