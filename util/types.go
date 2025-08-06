@@ -3,7 +3,8 @@ package util
 import "github.com/xconnio/xconn-go"
 
 type Realm struct {
-	Name string `yaml:"name"`
+	Name  string      `yaml:"name"`
+	Roles []RealmRole `yaml:"roles"`
 }
 
 type Transport struct {
@@ -12,6 +13,20 @@ type Transport struct {
 	Listener    xconn.Network `yaml:"listener"`
 	Serializers []string      `yaml:"serializers"`
 	RateLimit   RateLimit     `yaml:"ratelimit"`
+}
+
+type RealmRole struct {
+	Name        string       `yaml:"name"`
+	Permissions []Permission `yaml:"permissions"`
+}
+
+type Permission struct {
+	URI            string `yaml:"uri"`
+	MatchPolicy    string `yaml:"match"`
+	AllowCall      bool   `yaml:"allow_call"`
+	AllowPublish   bool   `yaml:"allow_publish"`
+	AllowRegister  bool   `yaml:"allow_register"`
+	AllowSubscribe bool   `yaml:"allow_subscribe"`
 }
 
 type RateLimit struct {
