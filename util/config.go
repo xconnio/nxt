@@ -12,10 +12,11 @@ import (
 )
 
 const (
-	JsonSerializer     = "json"
-	CborSerializer     = "cbor"
-	MsgPackSerializer  = "msgpack"
-	ProtobufSerializer = "protobuf"
+	JsonSerializer      = "json"
+	CborSerializer      = "cbor"
+	MsgPackSerializer   = "msgpack"
+	ProtobufSerializer  = "protobuf"
+	CapnprotoSerializer = "capnproto"
 
 	BurstStrategy       = "burst"
 	LeakyBucketStrategy = "leakybucket"
@@ -56,10 +57,11 @@ func (c Config) Validate() error {
 
 func validateSerializers(serializers []string) error {
 	var allowedSerializer = map[string]bool{
-		JsonSerializer:     true,
-		CborSerializer:     true,
-		MsgPackSerializer:  true,
-		ProtobufSerializer: true,
+		JsonSerializer:      true,
+		CborSerializer:      true,
+		MsgPackSerializer:   true,
+		ProtobufSerializer:  true,
+		CapnprotoSerializer: true,
 	}
 
 	for _, elem := range serializers {

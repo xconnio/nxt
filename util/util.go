@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 
 	"github.com/xconnio/xconn-go"
@@ -52,11 +51,6 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 				time.Duration(transport.RateLimit.Interval)*time.Second, strategy)
 		}
 		server := xconn.NewServer(router, authenticator, &xconn.ServerConfig{Throttle: throttle})
-		if slices.Contains(transport.Serializers, "protobuf") {
-			if err := server.RegisterSpec(xconn.ProtobufSerializerSpec); err != nil {
-				return nil, err
-			}
-		}
 
 		var closer io.Closer
 		switch transport.Type {
