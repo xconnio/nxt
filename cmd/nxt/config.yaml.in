@@ -10,7 +10,9 @@ transports:
     serializers:
       - json
       - cbor
+      - msgpack
       - protobuf
+      - capnproto
 
   - type: rawsocket
     listener: unix
