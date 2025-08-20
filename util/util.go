@@ -35,6 +35,26 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 
 	for _, realm := range config.Realms {
 		router.AddRealm(realm.Name)
+		for _, role := range realm.Roles {
+			var permissions []xconn.Permission
+			for _, permission := range role.Permissions {
+				permissions = append(permissions, xconn.Permission{
+					URI:            permission.URI,
+					MatchPolicy:    permission.MatchPolicy,
+					AllowCall:      permission.AllowCall,
+					AllowRegister:  permission.AllowRegister,
+					AllowPublish:   permission.AllowPublish,
+					AllowSubscribe: permission.AllowSubscribe,
+				})
+			}
+			err = router.AddRealmRole(realm.Name, xconn.RealmRole{
+				Name:        role.Name,
+				Permissions: permissions,
+			})
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	authenticator := NewAuthenticator(config.Authenticators)

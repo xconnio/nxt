@@ -8,6 +8,7 @@ import (
 
 	"golang.org/x/exp/slices"
 
+	"github.com/xconnio/wampproto-go"
 	"github.com/xconnio/xconn-go"
 )
 
@@ -39,6 +40,17 @@ func (c Config) Validate() error {
 	for _, realm := range c.Realms {
 		if !URIRegex.MatchString(realm.Name) {
 			return fmt.Errorf("invalid realm %s: must be a valid URI", realm.Name)
+		}
+
+		for _, role := range realm.Roles {
+			for _, permission := range role.Permissions {
+				switch permission.MatchPolicy {
+				case wampproto.MatchExact, wampproto.MatchPrefix, wampproto.MatchWildcard:
+				default:
+					return fmt.Errorf("invalid match policy %s: must be exact, prefix or wildcard", permission.MatchPolicy)
+
+				}
+			}
 		}
 	}
 
