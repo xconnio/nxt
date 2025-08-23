@@ -34,7 +34,9 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 	defer router.Close()
 
 	for _, realm := range config.Realms {
-		router.AddRealm(realm.Name)
+		if err := router.AddRealm(realm.Name); err != nil {
+			return nil, fmt.Errorf("unable to add realm: %w", err)
+		}
 		for _, role := range realm.Roles {
 			var permissions []xconn.Permission
 			for _, permission := range role.Permissions {
