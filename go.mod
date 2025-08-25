@@ -6,8 +6,8 @@ toolchain go1.24.4
 
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
-	github.com/xconnio/wampproto-go v0.0.0-20250820111356-1ebf798b6d92
-	github.com/xconnio/xconn-go v0.0.0-20250823082246-812db333676b
+	github.com/xconnio/wampproto-go v0.0.0-20250823133449-078b52b652dc
+	github.com/xconnio/xconn-go v0.0.0-20250825123516-c3ade7d6dfbf
 	golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
 	gopkg.in/yaml.v3 v3.0.1
 )
