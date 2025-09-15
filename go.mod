@@ -7,7 +7,9 @@ toolchain go1.24.4
 require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/xconnio/wampproto-go v0.0.0-20250904095518-e79af763bcae
-	github.com/xconnio/xconn-go v0.0.0-20250915090449-c03027c1a8a4
+	github.com/xconnio/wampproto-protobuf/go v0.0.0-20250915123719-e08a312bcee8
+	github.com/xconnio/wampproto-serializer-capnproto/go v0.0.0-20250915123410-a264e312ce6c
+	github.com/xconnio/xconn-go v0.0.0-20250915122533-788f2ce01d2e
 	golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -27,8 +29,6 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	github.com/xconnio/wampproto-protobuf/go v0.0.0-20250909133254-8da2f2eaf6ed // indirect
-	github.com/xconnio/wampproto-serializer-capnproto/go v0.0.0-20250823081023-3328f7ff47d5 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
 	golang.org/x/crypto v0.40.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect

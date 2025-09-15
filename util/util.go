@@ -9,6 +9,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
+	"github.com/xconnio/wampproto-protobuf/go"
+	"github.com/xconnio/wampproto-serializer-capnproto/go"
 	"github.com/xconnio/xconn-go"
 )
 
@@ -73,6 +75,24 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 				time.Duration(transport.RateLimit.Interval)*time.Second, strategy)
 		}
 		server := xconn.NewServer(router, authenticator, &xconn.ServerConfig{Throttle: throttle})
+
+		for _, serializer := range transport.Serializers {
+			if serializer == ProtobufSerializer {
+				protobufSerializerSpec := xconn.NewSerializerSpec(wampprotobuf.ProtobufSplitSubProtocol,
+					&wampprotobuf.ProtobufSerializer{}, xconn.SerializerID(wampprotobuf.ProtobufSerializerID))
+				if err := server.RegisterSpec(protobufSerializerSpec); err != nil {
+					return nil, err
+				}
+			}
+
+			if serializer == CapnprotoSerializer {
+				capnprotoSerializerSpec := xconn.NewSerializerSpec(wampprotocapnp.CapnprotoSplitSubProtocol,
+					&wampprotocapnp.CapnprotoSerializer{}, xconn.SerializerID(wampprotocapnp.CapnprotoSplitSerializerID))
+				if err := server.RegisterSpec(capnprotoSerializerSpec); err != nil {
+					return nil, err
+				}
+			}
+		}
 
 		var closer io.Closer
 		switch transport.Type {
