@@ -25,7 +25,7 @@ transports:
 
   - type: rawsocket
     listener: unix
-    address: /tmp/nxt.sock
+    address: ~/nxt.sock
     serializers:
       - json
       - cbor
