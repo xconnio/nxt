@@ -9,13 +9,13 @@ go build ./cmd/nxt
 
 ### Init and start
 ```
-./nxt init
-./nxt start
+nxt init
+nxt start
 ```
 
 That should show below logs
 ```
-om26er@office-pc:~/scm/xconnio/nxt$ ./nxt start
+$ nxt start
 listening websocket on ws://localhost:8080
 listening rawsocket on rs:///tmp/nxt.sock
 ```
