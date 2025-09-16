@@ -1,4 +1,4 @@
-# NXT: A blazing-fast, next-generation WAMP router for modern real-time apps.
+# NXT: A next-generation WAMP router for modern real-time apps.
 
 ### Build
 ```
