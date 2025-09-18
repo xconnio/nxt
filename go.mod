@@ -9,7 +9,7 @@ require (
 	github.com/xconnio/wampproto-go v0.0.0-20250904095518-e79af763bcae
 	github.com/xconnio/wampproto-protobuf/go v0.0.0-20250915123719-e08a312bcee8
 	github.com/xconnio/wampproto-serializer-capnproto/go v0.0.0-20250915123410-a264e312ce6c
-	github.com/xconnio/xconn-go v0.0.0-20250915122533-788f2ce01d2e
+	github.com/xconnio/xconn-go v0.0.0-20250918124058-95e16bcd2454
 	golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
 	gopkg.in/yaml.v3 v3.0.1
 )
