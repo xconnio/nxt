@@ -32,6 +32,8 @@ var URIRegex = regexp.MustCompile(`^([^\s.#]+\.)*([^\s.#]+)$`)
 type Config struct {
 	Version        string         `yaml:"version"`
 	Realms         []Realm        `yaml:"realms"`
+	RateLimit      RateLimit      `yaml:"ratelimit"`
+	Serializers    []string       `yaml:"serializers"`
 	Transports     []Transport    `yaml:"transports"`
 	Authenticators Authenticators `yaml:"authenticators"`
 }
@@ -52,6 +54,10 @@ func (c Config) Validate() error {
 				}
 			}
 		}
+	}
+
+	if err := validateSerializers(c.Serializers); err != nil {
+		return err
 	}
 
 	for _, transport := range c.Transports {
@@ -99,10 +105,6 @@ func validateTransport(transport Transport) error {
 	case xconn.NetworkTCP, xconn.NetworkUnix:
 	default:
 		return fmt.Errorf("invalid listener: %s", transport.Listener)
-	}
-
-	if err := validateSerializers(transport.Serializers); err != nil {
-		return err
 	}
 
 	allowedStrategies := []string{"", BurstStrategy, LeakyBucketStrategy}
