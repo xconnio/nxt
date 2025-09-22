@@ -12,24 +12,21 @@ realms:
             allow_publish: true
             allow_subscribe: true
 
+serializers:
+  - json
+  - cbor
+  - msgpack
+  - protobuf
+  - capnproto
+
 transports:
   - type: websocket
     listener: tcp
     address: localhost:8080
-    serializers:
-      - json
-      - cbor
-      - msgpack
-      - protobuf
-      - capnproto
 
   - type: rawsocket
     listener: unix
     address: ~/nxt.sock
-    serializers:
-      - json
-      - cbor
-      - msgpack
 
 authenticators:
   cryptosign:

@@ -10,8 +10,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/xconnio/wampproto-protobuf/go"
-	"github.com/xconnio/wampproto-serializer-capnproto/go"
+	wampprotocapnp "github.com/xconnio/wampproto-capnproto/go"
+	wampprotobuf "github.com/xconnio/wampproto-protobuf/go"
 	"github.com/xconnio/xconn-go"
 )
 
@@ -62,39 +62,40 @@ func StartServerFromConfigFile(configFile string) ([]io.Closer, error) {
 		}
 	}
 
+	var throttle *xconn.Throttle
+	if config.RateLimit.Rate > 0 && config.RateLimit.Interval > 0 {
+		strategy := xconn.Burst
+		if config.RateLimit.Strategy == LeakyBucketStrategy {
+			strategy = xconn.LeakyBucket
+		}
+		throttle = xconn.NewThrottle(config.RateLimit.Rate,
+			time.Duration(config.RateLimit.Interval)*time.Second, strategy)
+	}
+
 	authenticator := NewAuthenticator(config.Authenticators)
+
+	server := xconn.NewServer(router, authenticator, &xconn.ServerConfig{Throttle: throttle})
+
+	for _, serializer := range config.Serializers {
+		if serializer == ProtobufSerializer {
+			protobufSerializerSpec := xconn.NewSerializerSpec(wampprotobuf.ProtobufSplitSubProtocol,
+				&wampprotobuf.ProtobufSerializer{}, xconn.SerializerID(wampprotobuf.ProtobufSerializerID))
+			if err := server.RegisterSpec(protobufSerializerSpec); err != nil {
+				return nil, err
+			}
+		}
+
+		if serializer == CapnprotoSerializer {
+			capnprotoSerializerSpec := xconn.NewSerializerSpec(wampprotocapnp.CapnprotoSplitSubProtocol,
+				&wampprotocapnp.CapnprotoSerializer{}, xconn.SerializerID(wampprotocapnp.CapnprotoSplitSerializerID))
+			if err := server.RegisterSpec(capnprotoSerializerSpec); err != nil {
+				return nil, err
+			}
+		}
+	}
 
 	closers := make([]io.Closer, 0)
 	for _, transport := range config.Transports {
-		var throttle *xconn.Throttle
-		if transport.RateLimit.Rate > 0 && transport.RateLimit.Interval > 0 {
-			strategy := xconn.Burst
-			if transport.RateLimit.Strategy == LeakyBucketStrategy {
-				strategy = xconn.LeakyBucket
-			}
-			throttle = xconn.NewThrottle(transport.RateLimit.Rate,
-				time.Duration(transport.RateLimit.Interval)*time.Second, strategy)
-		}
-		server := xconn.NewServer(router, authenticator, &xconn.ServerConfig{Throttle: throttle})
-
-		for _, serializer := range transport.Serializers {
-			if serializer == ProtobufSerializer {
-				protobufSerializerSpec := xconn.NewSerializerSpec(wampprotobuf.ProtobufSplitSubProtocol,
-					&wampprotobuf.ProtobufSerializer{}, xconn.SerializerID(wampprotobuf.ProtobufSerializerID))
-				if err := server.RegisterSpec(protobufSerializerSpec); err != nil {
-					return nil, err
-				}
-			}
-
-			if serializer == CapnprotoSerializer {
-				capnprotoSerializerSpec := xconn.NewSerializerSpec(wampprotocapnp.CapnprotoSplitSubProtocol,
-					&wampprotocapnp.CapnprotoSerializer{}, xconn.SerializerID(wampprotocapnp.CapnprotoSplitSerializerID))
-				if err := server.RegisterSpec(capnprotoSerializerSpec); err != nil {
-					return nil, err
-				}
-			}
-		}
-
 		address := transport.Address
 		if transport.Listener == xconn.NetworkUnix {
 			address, err = resolveUnixSocketPath(address)
